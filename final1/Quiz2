@@ -1,0 +1,99 @@
+# import sqlite3
+#
+# conn = sqlite3.connect('oscar_winners.sqlite')
+# c = conn.cursor()
+#წამოიღებს იმ მსახიობების სახელებს, გვარებსა და ფილმის დასახელებსბებს რომლებიც დაჯილდოვდნენ 2000 წლის ზემოთ
+# c.execute("SELECT name, movie, year FROM oscar WHERE year > 2000")
+#
+#
+# result = c.fetchall()
+#
+# დაგვილაგებს ბაზიდან წამოღებულ ინფოს უფრო ლამაზად.
+# for x in result:
+#     name = x[0]
+#     movie = x[1]
+#     year = x[2]
+#     print(f'Actor/Actress: {name}; Movie: {movie}; Year: {year}.')
+#
+
+# ვიყენებ fetchone() - პირბველი დაჯილდოვებულის სანახავად.
+# c.execute("SELECT MIN(year) FROM oscar")
+# min_year = c.fetchone()[0]
+# c.execute(f"SELECT name, movie, year FROM oscar WHERE year >= {min_year}")
+# result = c.fetchone()
+# name = result[0]
+# movie = result[1]
+# year = result[2]
+# print(f"First Oscar Winner: {name}; Movie: {movie}, in {year}.")
+
+# ვიყენებ fetchmany -ს, პირველი 10 დაჯილდოვებული მამაკაცის ამოსაცხრილად.
+# import sqlite3
+#
+# conn = sqlite3.connect('oscar_winners.sqlite')
+# c = conn.cursor()
+# c.execute("SELECT name, movie FROM oscar WHERE gender = 'M'")
+# result = c.fetchmany(10)
+#
+# for i in result:
+#     name = i[0]
+#     movie = i[1]
+#     print(f"Actor: {name}; Movie: {movie}.")
+
+
+
+# UPDATE, INSERT, DELETE ფუნქციები
+# import sqlite3
+#
+#
+# conn = sqlite3.connect('oscar_winners.sqlite')
+# c = conn.cursor()
+# action = int(input("What do you want to do? 1 - for append data; 2 - for change; 3 - for delete:"))
+#
+# while action <= 3:
+# ვიყენებ ინსერტ ფუნქციონალს, მომხმარებელს ვამატებინებ დატას: დაჯილდოებულის სახელს, სქესს, ფილმის სახელსა და წელს.
+#     if action == 1:
+#         name = input("Enter the name of actor/actress: ")
+#         movie = input("Enter the name of the movie: ")
+#         year = input("Enter the year: ")
+#         valid_gender = False
+#         while not valid_gender:
+#             gender = input("Enter the gender: M - stands for male, F - for female: ")
+#             if gender == "M" or gender == "F":
+#                 valid_gender = True
+#             else:
+#                 print("Incorrect value. Please try again.")
+#
+#         c.execute("INSERT INTO oscar (name, movie, year, gender) VALUES (?, ?, ?, ?", (name, movie, year, gender))
+#         conn.commit()
+#         print(f"Data appended with success. Year: {year}; Actor/Actress: {name}; Movie {movie}; Gender: {gender}.")
+#
+# ვანახაალებინებ მომხმარებელს მონაცემებს აიდის მიხედვით, რადგან ცხრილი უნიკალური მხოლოდ ეს მონაცემია, ყველაზე ლოგიკური მისი მიხედვით მონაცემის შეცვლა იქნებოდა.
+#     elif action == 2:
+#         record_id = int(input("Enter the ID of the record to update: "))
+#         movie = input("Enter the new name of the movie: ")
+#         year = input("Enter the new year: ")
+#         name = input("Enter the new name of actor/actress: ")
+#         valid_gender = False
+#         while not valid_gender:
+#             gender = input("Enter the new gender: M - stands for male, F - for female: ")
+#             if gender == "M" or gender == "F":
+#                 valid_gender = True
+#             else:
+#                 print("Incorrect value. Please try again.")
+#
+#         c.execute("UPDATE oscar SET movie = ?, year = ?, name = ?, gender = ? WHERE id = ?", (movie, year, name, gender, record_id))
+#         conn.commit()
+#         print(f"Data updated successfully for record with ID: {record_id}.")
+#
+#ისევე როგორც მეორე ფუნქციაში, ვაშლევინებ მომხმარებელს მონაცემს უნიკალური აიდის მიხედვით.
+#
+#     elif action == 3:
+#         record_id = input("Enter the ID of the record to delete: ")
+#
+#         c.execute("DELETE FROM oscar WHERE id = ?", (record_id,))
+#         conn.commit()
+#         print(f"Record with ID: {record_id} deleted successfully.")
+#
+#     action = int(input("What do you want to do? 1 - for append data; 2 - for change; 3 - for delete: "))
+#
+#     conn.close()
